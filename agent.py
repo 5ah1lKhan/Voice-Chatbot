@@ -49,9 +49,16 @@ class SchedulingAgent:
 
     def _get_token_count(self) -> int:
         """Calculates the total token count of the current memory."""
-        # Simple implementation: concatenate message content and encode
-        full_text = " ".join([msg.content for msg in self.memory if isinstance(msg.content, str)])
-        return len(self.tokenizer.encode(full_text))
+        try:
+            total_tokens = 0
+            for msg in self.memory:
+                if isinstance(msg, AIMessage):
+                    total_tokens += msg.usage_metadata['total_tokens']
+            return total_tokens
+        except Exception as e:
+            print(f"Error calculating token count: {e}")
+            full_text = " ".join([msg.content for msg in self.memory if isinstance(msg.content, str)])
+            return len(self.tokenizer.encode(full_text))
 
     def _handle_memory(self):
         """

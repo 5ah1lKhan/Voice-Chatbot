@@ -226,19 +226,21 @@ if not st.session_state['credentials']:
     st.write(f"Hi **{user_id}**, please log in with your Google account to grant calendar access.")
     auth_url, _ = get_auth_url(user_id) # Pass user_id to the function
     # st.link_button("Login with Google", auth_url)
-    button_html = f"""
-    <a href="{auth_url}" target="_self" style="
-        display: inline-block;
-        padding: 0.5em 1em;
-        color: white;
-        background-color: #FF4B4B;
-        border-radius: 0.5rem;
-        text-decoration: none;
-        font-weight: bold;">
-        Login with Google
-    </a>
-    """
-    st.markdown(button_html, unsafe_allow_html=True)
+    if st.button("Login with Google", use_container_width=True):
+        streamlit_js_eval(f'window.location.href = "{auth_url}"')
+    # button_html = f"""
+    # <a href="{auth_url}" target="_self" style="
+    #     display: inline-block;
+    #     padding: 0.5em 1em;
+    #     color: white;
+    #     background-color: #FF4B4B;
+    #     border-radius: 0.5rem;
+    #     text-decoration: none;
+    #     font-weight: bold;">
+    #     Login with Google
+    # </a>
+    # """
+    # st.markdown(button_html, unsafe_allow_html=True)
 else:
     from agent import agent
     # This section is shown only after the user is fully logged in and authenticated
