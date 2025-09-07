@@ -93,7 +93,7 @@ try:
     # from streamlit.web.server.server import Server
     # server = Server.get_current()
     # REDIRECT_URI = server.get_full_url("/")
-    st.secrets["google_credentials"]['web']['redirect_uris'][0]
+    REDIRECT_URI = st.secrets["google_credentials"]['web']['redirect_uris'][0]
 except (ImportError, AttributeError):
     # Fallback for local development
     print("Could not determine full URL, defaulting to localhost.")
