@@ -246,11 +246,11 @@ else:
     # This section is shown only after the user is fully logged in and authenticated
     st.sidebar.info("✅ You are connected to your Google Calendar.")
     st.sidebar.header("Account")
-    if st.sidebar.button("Logout and Revoke Access"):
-        delete_creds_from_firestore(st.session_state.get('user_id'))
-        st.session_state['credentials'] = None
-        st.session_state['user_id'] = None # Clear user_id to force re-entry
-        st.rerun()
+    # if st.sidebar.button("Logout and Revoke Access"):
+    #     delete_creds_from_firestore(st.session_state.get('user_id'))
+    #     st.session_state['credentials'] = None
+    #     st.session_state['user_id'] = None # Clear user_id to force re-entry
+    #     st.rerun()
 
     float_init()
 
