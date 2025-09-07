@@ -8,11 +8,8 @@ from speech_to_text import transcribe_audio
 from audio_recorder_streamlit import audio_recorder
 from streamlit_float import *
 from streamlit_js_eval import streamlit_js_eval
-import pytz # You might need this to work with the timezone
-import datetime as dt
 import base64
 import re
-import io
 import firebase_admin
 from firebase_admin import credentials, firestore
 from google.oauth2.credentials import Credentials

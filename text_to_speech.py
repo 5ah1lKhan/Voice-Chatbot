@@ -4,7 +4,6 @@ from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
 from dotenv import load_dotenv
 import os
-from pydub import AudioSegment
 load_dotenv()
 
 elevenlabs = ElevenLabs(
