@@ -98,7 +98,7 @@ except (ImportError, AttributeError):
     # Fallback for local development
     print("Could not determine full URL, defaulting to localhost.")
     REDIRECT_URI = "http://localhost:8501/"
-st.sidebar.info(f"Using Redirect URI: `{REDIRECT_URI}`. Please ensure this is authorized in your Google Cloud Console.")
+# st.sidebar.info(f"Using Redirect URI: `{REDIRECT_URI}`. Please ensure this is authorized in your Google Cloud Console.")
 
 # --- Helper Functions ---
 
