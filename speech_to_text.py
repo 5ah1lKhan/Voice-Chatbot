@@ -6,13 +6,12 @@ from elevenlabs.client import ElevenLabs
 
 load_dotenv()
 
-elevenlabs = ElevenLabs(
-  api_key=os.getenv("ELEVENLABS_API_KEY"),
-)
-
 def transcribe_audio(audio_bytes):
     # with open(audio_path, "rb") as f:
     #     audio_data = BytesIO(f.read())
+    elevenlabs = ElevenLabs(
+        api_key=os.getenv("ELEVENLABS_API_KEY"),
+    )
     audio_data = BytesIO(audio_bytes)
     transcription = elevenlabs.speech_to_text.convert(
         file=audio_data,

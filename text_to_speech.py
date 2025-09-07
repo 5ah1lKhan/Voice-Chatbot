@@ -6,12 +6,10 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-elevenlabs = ElevenLabs(
-  api_key=os.getenv("ELEVENLABS_API_KEY"),
-)
-
 def generate_tts(text):
-
+    elevenlabs = ElevenLabs(
+        api_key=os.getenv("ELEVENLABS_API_KEY"),
+    )
     # Perform the text-to-speech conversion
     response = elevenlabs.text_to_speech.stream(
         voice_id="pNInz6obpgDQGcFmaJgB", # Adam pre-made voice
