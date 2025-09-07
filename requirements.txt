@@ -17,6 +17,7 @@ langchain-google-genai
 streamlit
 audio_recorder_streamlit
 streamlit-float
+streamlit-js-eval
 
 tiktoken
 
