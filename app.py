@@ -56,10 +56,10 @@ st.session_state['elevenlabs_api_key'] = elevenlabs_input
 
 # Logic: Prioritize user-input key, then fallback to secrets
 if st.session_state['elevenlabs_api_key']:
-    os.environ["ELEVEN_API_KEY"] = st.session_state['elevenlabs_api_key']
+    os.environ["ELEVENLABS_API_KEY"] = st.session_state['elevenlabs_api_key']
     st.sidebar.success("Using user-provided Eleven Labs key.", icon="🔑")
 elif "elevenlabs" in st.secrets and "api_key" in st.secrets.elevenlabs:
-    os.environ["ELEVEN_API_KEY"] = st.secrets.elevenlabs.api_key
+    os.environ["ELEVENLABS_API_KEY"] = st.secrets.elevenlabs.api_key
     st.sidebar.info("Using default ElevenLabs key.")
 else:
     st.sidebar.warning("Eleven Labs API key is not configured.")
