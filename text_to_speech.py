@@ -1,78 +1,49 @@
-from google import genai
-from google.genai import types
-# from google.genai.types import GenerateContentConfig, Tool
-# from IPython.display import display, HTML, Markdown
-# import io
-# import json
-# import re
+from typing import IO
+from io import BytesIO
+from elevenlabs import VoiceSettings
+from elevenlabs.client import ElevenLabs
 from dotenv import load_dotenv
 import os
 from pydub import AudioSegment
 load_dotenv()
 
-def opus_file(filename, pcm, channels=1, rate=24000, sample_width=2):
-    """
-    Converts raw PCM audio bytes to an Opus file using pydub.
-    
-    Args:
-        filename (str): The name of the output .opus file.
-        pcm (bytes): The raw PCM audio data.
-        channels (int): The number of audio channels (e.g., 1 for mono).
-        rate (int): The sample rate in Hz.
-        sample_width (int): The sample width in bytes (e.g., 2 for 16-bit).
-    """
-    # Create an AudioSegment from the raw PCM data
-    audio_segment = AudioSegment(
-        data=pcm,
-        sample_width=sample_width,
-        frame_rate=rate,
-        channels=channels
-    )
+elevenlabs = ElevenLabs(
+  api_key=os.getenv("ELEVENLABS_API_KEY"),
+)
 
-    # Export the AudioSegment to an Opus file
-    audio_segment.export(filename, format="opus")
-    print(f"Audio content written to file '{filename}'")
+def generate_tts(text):
 
-
-def generate_tts(PROMPT, VOICE='Kore', file_name="output_audio"):
-
-    client = genai.Client(
-        api_key=os.environ.get("gemini")
-    )
-# 
-    response = client.models.generate_content(
-    model="gemini-2.5-flash-preview-tts",
-    contents=PROMPT,
-    config=types.GenerateContentConfig(
-        response_modalities=["audio"],
-        speech_config=types.SpeechConfig(
-            voice_config=types.VoiceConfig(
-                prebuilt_voice_config=types.PrebuiltVoiceConfig(
-                voice_name=VOICE,
-                )
-            )
+    # Perform the text-to-speech conversion
+    response = elevenlabs.text_to_speech.stream(
+        voice_id="pNInz6obpgDQGcFmaJgB", # Adam pre-made voice
+        output_format="mp3_22050_32",
+        text=text,
+        model_id="eleven_multilingual_v2",
+        # Optional voice settings that allow you to customize the output
+        voice_settings=VoiceSettings(
+            stability=0.0,
+            similarity_boost=1.0,
+            style=0.0,
+            use_speaker_boost=True,
+            speed=1.0,
         ),
     )
-    )
 
-    data = response.candidates[0].content.parts[0].inline_data.data
-    # set the sample rate
-    rate = 24000
-    file_name = f'{file_name}.opus'
+    # Create a BytesIO object to hold the audio data in memory
+    audio_stream = BytesIO()
 
-    # print(f"\nSaving sample rate: {rate}")
-    opus_file(file_name, data, rate=rate)
+    # Write each chunk of audio data to the stream
+    for chunk in response:
+        if chunk:
+            audio_stream.write(chunk)
 
-    return file_name
+    # Reset stream position to the beginning
+    audio_stream.seek(0)
+    wav_bytes = audio_stream.getvalue()
+
+    return wav_bytes
 
 if __name__ == "__main__":
-    voice = 'Kore'
-    # voice = 'Zephyr'
-    # text  = "sing: Me hu jiyan, mera gala h bhut sureela"
-    # text = "Natural, friendly, professional tone: Hello, how are you doing today? I hope you're having a great day!"
-    # text = '''Yes, you have two meetings today:
-
-    #         "Discussion - Sahil (Python - Delhi)" from 09:30 AM to 10:00 AM.
-    #         "Meet - AI & Simulations" from 08:00 PM to 09:00 PM.'''
-    text = "Hello, I am your voice assistant. How can I help you today?"
-    generate_tts(text, voice, "output_audio")
+    print("This is a module for TTS functionality.")
+    # text = "Hello, I am your voice assistant. How can I help you today?"
+    # generate_tts(text)
