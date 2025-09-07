@@ -11,7 +11,7 @@ A voice-driven AI assistant that acts as your personal scheduler. Built with **S
 - **Full Calendar CRUD:** Create, read, update, delete events via natural language.
 - **Secure authentication:** OAuth 2.0 flow with Google; user tokens stored securely (Firestore for this project).
 - **Persistent conversation memory:** Summarization + memory so the agent remembers context across a session.
-- **Streamlit Cloud compatible:** Use Streamlit secrets manager or a local `.streamlit/secrets.toml` file.
+- **Deployed on Streamlit cloud:** Use the web app via link at the bottom.
 
 ---
 
@@ -24,6 +24,34 @@ A voice-driven AI assistant that acts as your personal scheduler. Built with **S
 - `calenderTool.py` — Calendar tool functions (create/find/update/delete events)
 - `prompt.txt` — System prompt for the agent
 - `.streamlit/secrets.toml` — **(not included in repo)** — store your credentials locally or via Streamlit Cloud secrets
+
+---
+
+## 🚀 How It Works (System Architecture)
+
+### 1. User Interface (Streamlit)
+- `app.py` creates a web interface with a voice recorder.  
+- Manages **user authentication**, **chat display**, and **API key inputs**.
+
+### 2. Authentication & Session Management
+- Prompts for a **unique User ID** to namespace all data.  
+- Initiates a **Google OAuth 2.0** flow.  
+- App state and User ID are temporarily stored in **Firestore** to survive the redirect.  
+- Upon successful login, the user's **API token** is securely saved to a Firestore document tied to their User ID.
+
+### 3. Voice Processing
+- **Speech-to-Text (`speech_to_text.py`)** → Recorded audio is sent to the Eleven Labs model for transcription.  
+- **Text-to-Speech (`text_to_speech.py`)** → The agent's response is synthesized into audio by Eleven Labs and played back automatically in the browser.
+
+### 4. Agent Core (`agent.py`)
+- The transcribed text is passed to the **SchedulingAgent**.  
+- Uses **Google Gemini**, a detailed **system prompt (`prompt.txt`)**, and a set of tools to decide the next action.  
+- Maintains a **conversation history (memory)**.  
+- Handles long conversations by performing **memory summarization** using Gemini.
+
+### 5. Calendar Tools (`calenderTool.py`)
+- Functions the agent can call to interact with the **Google Calendar API**.  
+- Actions include **creating, finding, and deleting events** using the user’s stored credentials.
 
 ---
 
