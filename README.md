@@ -129,8 +129,16 @@ api_key = "YOUR_ELEVENLABS_API_KEY"
 streamlit run app.py
 ```
 
-### 5. Deployed on Streamlit Cloud
+### 5. Login Information & Precautions
+
+- This app uses **Google OAuth 2.0** for authentication.  
+- ⚠️ Currently, the app is in **Testing Phase** → only **approved test users** can access it.  
+- If you want access, please **share your email with me** so I can add you as a test user.  
+- There will be a **one-time Google authentication**.  
+- After successful login, you will only be able to log in using your **registered User ID** only→ please remember it.  
+
+
+### 6. Deployed on Streamlit Cloud
 Visit the app : [Voice Chatbot](https://voice-chatbot-next.streamlit.app/)
 
-(Testing Phase : You have to share your email with me so i can grant you access)
 (Please prefer google chrome, first audio is skipped in safari)
