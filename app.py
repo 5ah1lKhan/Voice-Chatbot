@@ -227,7 +227,7 @@ if not st.session_state['credentials']:
     auth_url, _ = get_auth_url(user_id) # Pass user_id to the function
     # st.link_button("Login with Google", auth_url)
     if st.button("Login with Google", use_container_width=True):
-        streamlit_js_eval(f'window.location.href = "{auth_url}"')
+        streamlit_js_eval(f'window.location.href = "{auth_url}"', key="google_auth_redirect")
     # button_html = f"""
     # <a href="{auth_url}" target="_self" style="
     #     display: inline-block;
