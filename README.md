@@ -4,16 +4,6 @@ A voice-driven AI assistant that acts as your personal scheduler. Built with **S
 
 ---
 
-## Demo
-
-Replace this line with an animated GIF or short video showing the agent in action.
-
-```md
-![Demo GIF](path/to/demo.gif)
-```
-
----
-
 ## ✨ Key Features
 
 - **Voice-to-Voice interaction:** Speak a command; the agent replies with synthesized voice.
