@@ -90,9 +90,10 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 try:
     # Attempt to get the full URL for Streamlit Community Cloud
-    from streamlit.web.server.server import Server
-    server = Server.get_current()
-    REDIRECT_URI = server.get_full_url("/")
+    # from streamlit.web.server.server import Server
+    # server = Server.get_current()
+    # REDIRECT_URI = server.get_full_url("/")
+    st.secrets["google_credentials"]['web']['redirect_uris'][0]
 except (ImportError, AttributeError):
     # Fallback for local development
     print("Could not determine full URL, defaulting to localhost.")
