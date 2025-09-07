@@ -103,3 +103,5 @@ streamlit run app.py
 
 ### 5. Deployed on Streamlit Cloud
 Visit the app : [Voice Chatbot](https://voice-chatbot-next.streamlit.app/)
+
+(Please prefer google chrome, first audio is skipped in safari)
