@@ -101,7 +101,8 @@ api_key = "YOUR_ELEVENLABS_API_KEY"
 streamlit run app.py
 ```
 
-### 5. Deploy to Streamlit Cloud
-
-- Use the advanced settings in Streamlit Cloud to paste the contents of your `secrets.toml` into Streamlit's Secrets manager (UI).
-- Ensure `requirements.txt` contains all dependencies and that `app.py` is the main entry point.
+### 5. Deployed on Streamlit Cloud
+Visit the app
+```bash
+[Voice Chatbot](https://voice-chatbot-next.streamlit.app/)
+```
