@@ -1,131 +1,117 @@
-🗣️ Voice-Powered Google Calendar Agent
-This project is a sophisticated, voice-driven AI assistant that acts as your personal scheduler. Built with Streamlit, LangChain, and Google Gemini, it allows you to manage your Google Calendar events through a natural, conversational voice interface.
+# 🗣️ Voice-Powered Google Calendar Agent
 
-The agent is designed to be stateful and secure, remembering your conversation history and managing authentication gracefully. It connects directly to your Google Calendar to create, find, update, and delete events, all guided by your voice commands.
+A voice-driven AI assistant that acts as your personal scheduler. Built with **Streamlit**, **LangChain**, and **Google Gemini**, it lets you manage Google Calendar events through natural, conversational voice commands.
 
-Demo
-A picture is worth a thousand words, and a video is worth a million! Here is a short demonstration of the agent in action.
+---
 
-(--> IMPORTANT: REPLACE THIS LINE with your GIF or Video <--)
+## Demo
 
-To create a GIF for your README, you can use a tool like Giphy, EZgif, or Kapwing. Record your screen, convert the video to a GIF, and then upload the GIF to your GitHub repository. You can then embed it here using the following Markdown syntax:
-![Demo GIF](link_to_your_gif_in_the_repo.gif)
+Replace this line with an animated GIF or short video showing the agent in action.
 
-✨ Key Features
-🎙️ Voice-to-Voice Interaction: A complete hands-free experience. Speak your command, and the agent responds with a synthesized voice.
+```md
+![Demo GIF](path/to/demo.gif)
+```
 
-🧠 Intelligent Agent Core: Powered by Google Gemini and a custom LangChain agent, it understands context, asks clarifying questions, and manages a tool-calling loop.
+---
 
-🛠️ Full Calendar Management (CRUD):
+## ✨ Key Features
 
-Create: "Schedule a meeting with the design team tomorrow at 10 AM."
+- **Voice-to-Voice interaction:** Speak a command; the agent replies with synthesized voice.
+- **Context-aware agent core:** Powered by Google Gemini and LangChain; handles clarifying questions and tool calls.
+- **Full Calendar CRUD:** Create, read, update, delete events via natural language.
+- **Secure authentication:** OAuth 2.0 flow with Google; user tokens stored securely (Firestore for this project).
+- **Persistent conversation memory:** Summarization + memory so the agent remembers context across a session.
+- **Streamlit Cloud compatible:** Use Streamlit secrets manager or a local `.streamlit/secrets.toml` file.
 
-Read: "What do I have scheduled for Friday?"
+---
 
-Update: "Change my 10 AM meeting to 11 AM."
+## 📁 Repository Overview
 
-Delete: "Cancel my project sync meeting."
+- `app.py` — Streamlit app (UI, auth handling, voice recorder)
+- `agent.py` — Scheduling agent orchestration
+- `speech_to_text.py` — STT pipeline (e.g., Eleven Labs)
+- `text_to_speech.py` — TTS pipeline (e.g., Eleven Labs)
+- `calenderTool.py` — Calendar tool functions (create/find/update/delete events)
+- `prompt.txt` — System prompt for the agent
+- `.streamlit/secrets.toml` — **(not included in repo)** — store your credentials locally or via Streamlit Cloud secrets
 
-🔐 Secure Authentication: Implements a robust OAuth 2.0 flow with Google, securely storing user tokens in Google Firestore. User sessions are managed with unique IDs to ensure privacy.
+---
 
-💾 Persistent Memory: The agent remembers your conversations in the session. Allowing more contextual answers
+## ⚙️ Setup & Installation
 
-☁️ Streamlit Cloud Ready: Designed for easy deployment, with all API key and secret management handled through Streamlit's secrets manager.
+### Prerequisites
 
-🔑 Flexible API Key Management: Use the default API keys or provide your own directly in the UI.
+- Python 3.9+
+- Google Cloud project with Google Calendar API enabled
+- Firebase project with Firestore (optional, used for token/session storage in this project)
+- Eleven Labs (or other) account for STT/TTS (if you use those services)
 
-🚀 How It Works (System Architecture)
-User Interface (Streamlit): The app.py script creates a web interface with a voice recorder. It manages user authentication, chat display, and API key inputs.
+### 1. Clone the repo
 
-Authentication & Session Management:
-
-The app first prompts for a unique User ID to namespace all data.
-
-It then initiates a Google OAuth 2.0 flow. The app state and User ID are temporarily stored in Firestore to survive the redirect.
-
-Upon successful login, the user's API token is securely saved to a Firestore document tied to their User ID.
-
-Voice Processing:
-
-Speech-to-Text (speech_to_text.py): The user's recorded audio is sent to the Eleven Labs model to be transcribed into text.
-
-Text-to-Speech (text_to_speech.py): The agent's final text response is sent to the Eleven Labs model to be synthesized into audio, which is then played back automatically in the browser.
-
-Agent Core (agent.py):
-
-The transcribed text is passed to the SchedulingAgent.
-
-The agent uses Google Gemini, a detailed system prompt (prompt.txt), and a set of tools to decide on the next action.
-
-It maintains a conversation history (memory).
-
-It handles long conversations by memory summarization by llm(gemini)
-
-Calendar Tools (calenderTool.py):
-
-These are the functions the agent can call. They interact directly with the Google Calendar API using the user's stored credentials to perform actions like creating, finding, or deleting events.
-
-🛠️ Setup and Installation
-Follow these steps to run the project locally or deploy it to Streamlit Community Cloud.
-
-Prerequisites
-Python 3.9+
-
-A Google Cloud Platform project with the Google Calendar API enabled.
-
-An Eleven Labs account for STT/TTS.
-
-A Google Firebase project with Firestore enabled.
-
-1. Clone the Repository
+```bash
 git clone https://github.com/5ah1lKhan/Voice-Chatbot.git
 cd Voice-Chatbot
+```
 
-2. Install Dependencies
-Install all the required Python packages from the requirements.txt file.
+### 2. Install dependencies
 
+```bash
 pip install -r requirements.txt
+```
 
-3. Configure Your Secrets
-This is the most important step. Create a folder named .streamlit in your project root and, inside it, create a file named secrets.toml.
+### 3. Configure secrets
 
-Voice-Chatbot/
-└── .streamlit/
-    └── secrets.toml
+Create a folder named `.streamlit` in the project root and add a `secrets.toml` file. **Do not commit this file to git** — it contains sensitive credentials.
 
-Populate secrets.toml with your credentials. Use the following template:
+**Important:** Use fenced code blocks in this README (and in your docs) so the TOML is displayed correctly on GitHub. Below is a ready-to-copy template. Paste it into `.streamlit/secrets.toml` and replace the placeholder values.
 
-# In .streamlit/secrets.toml
+```toml
+# .streamlit/secrets.toml
 
-#for web application
-#[google_credentials]
-#web = { client_id = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com", project_id = "your-gcp-project-id", auth_uri = "...", token_uri = "...", auth_provider_x509_cert_url = "...", client_secret = "YOUR_GOOGLE_CLIENT_SECRET", redirect_uris =  }
-
-#for local desktop
+# For local desktop (installed app) Google OAuth 2.0 credentials
 [google_credentials]
-installed = { client_id = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com", project_id = "your-gcp-project-id", auth_uri = "...", token_uri = "...", auth_provider_x509_cert_url = "...", client_secret = "YOUR_GOOGLE_CLIENT_SECRET", redirect_uris = ["http://localhost:8501"] }
+installed = {
+  client_id = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+  project_id = "your-gcp-project-id",
+  auth_uri = "https://accounts.google.com/o/oauth2/auth",
+  token_uri = "https://oauth2.googleapis.com/token",
+  auth_provider_x509_cert_url = "https://www.googleapis.com/oauth2/v1/certs",
+  client_secret = "YOUR_GOOGLE_CLIENT_SECRET",
+  redirect_uris = ["http://localhost:8501"]
+}
 
+# If you deploy on Streamlit Cloud, you might use the `web` client config instead:
+# [google_credentials]
+# web = { client_id = "...", client_secret = "...", project_id = "...", auth_uri = "...", token_uri = "...", redirect_uris = ["https://your-streamlit-app.streamlitapp.com/"] }
 
 [firebase_service_account]
+# Copy fields from your Firebase service account JSON. IMPORTANT: the private_key is multi-line — use triple quotes.
 type = "service_account"
 project_id = "your-firebase-project-id"
 private_key_id = "..."
-# REMEMBER: Use triple quotes for the multi-line private key
 private_key = """-----BEGIN PRIVATE KEY-----\n...your...key...\n-----END PRIVATE KEY-----\n"""
-client_email = "..."
+client_email = "service-account-email@your-firebase-project.iam.gserviceaccount.com"
 client_id = "..."
-# ... (copy the rest of the fields from your Firebase service account JSON)
+# ...copy the rest of the fields from your Firebase JSON (if needed)
 
 [gemini]
 api_key = "YOUR_GEMINI_API_KEY"
 
 [elevenlabs]
 api_key = "YOUR_ELEVENLABS_API_KEY"
+```
 
-4. Run the Application Locally
-Once your secrets are configured, you can run the app with a single command:
+> **Reminder:** Wrap multi-line private keys with triple quotes exactly as shown. The `\n` sequences preserve newlines inside the TOML file.
 
+---
+
+### 4. Run locally
+
+```bash
 streamlit run app.py
+```
 
-5. Deploy to Streamlit Cloud
-To deploy, follow the official Streamlit deployment guide. During the advanced setup, you will copy the entire contents of your local secrets.toml file into the Streamlit Cloud secrets manager.
+### 5. Deploy to Streamlit Cloud
+
+- Use the advanced settings in Streamlit Cloud to paste the contents of your `secrets.toml` into Streamlit's Secrets manager (UI).
+- Ensure `requirements.txt` contains all dependencies and that `app.py` is the main entry point.
