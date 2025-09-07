@@ -102,7 +102,4 @@ streamlit run app.py
 ```
 
 ### 5. Deployed on Streamlit Cloud
-Visit the app
-```bash
-[Voice Chatbot](https://voice-chatbot-next.streamlit.app/)
-```
+Visit the app : [Voice Chatbot](https://voice-chatbot-next.streamlit.app/)
